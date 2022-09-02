@@ -17,7 +17,7 @@ with app.app_context():
 
 @app.route('/', methods=["GET"])
 def home():
-    return "Welcome to Course Advisor - TechElevate"
+    return "Welcome to Course Advisor- TechElevate"
 
 
 @app.route('/courses/', methods=["GET"])
