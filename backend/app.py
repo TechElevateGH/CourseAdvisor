@@ -1,5 +1,5 @@
 from flask import Flask, request
-from relations import db
+from relations import db, Course
 
 # Initialize Flask
 app = Flask(__name__)
@@ -18,6 +18,11 @@ with app.app_context():
 @app.route('/', methods=["GET"])
 def home():
     return "Welcome to Course Advisor - TechElevate"
+
+
+@app.route('/courses/', methods=["GET"])
+def get_courses():
+    courses = Course.query.all()
 
 
 if __name__ == '__main__':
