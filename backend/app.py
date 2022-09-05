@@ -1,4 +1,5 @@
 from flask import Flask, request
+from CourseAdvisor.backend.utils import error_response, success_response
 from relations import db, Course
 
 # Initialize Flask
@@ -24,6 +25,20 @@ def home():
 def get_courses():
     courses = Course.query.all()
 
+
+
+
+
+####################### POST ROUTES #######################
+@app.route('/courses/<int: course_id>/posts/', methods=["GET"])
+def get_course_posts(course_id: int):
+    course = Course.query.filter_by(id=course_id).first()
+    if not course:
+        return error_response("Course Not Found!", 404)
+    
+    posts = [post.serialize_for_course() for post in course.posts]
+
+    return success_response(posts, 200)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4000)
