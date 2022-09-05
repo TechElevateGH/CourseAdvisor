@@ -30,8 +30,8 @@ def get_courses():
 
 
 ####################### POST ROUTES #######################
-@app.route('/courses/<int: course_id>/posts/<int: post_id>/', methods=["GET"])
-def get_course_posts(course_id: int, post_id: int):
+@app.route('/courses/<int: course_id>/posts/', methods=["GET"])
+def get_course_posts(course_id: int):
     course = Course.query.filter_by(id=course_id).first()
     if not course:
         return error_response("Course Not Found!", 404)
