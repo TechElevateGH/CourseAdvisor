@@ -22,3 +22,17 @@ class Course(db.Model):
             "semester": self.semester,
             "year": self.year
         })
+
+
+
+
+
+
+
+class Post(db.Model):
+    pass
+
+
+    def serialize_for_course(self):
+        """ An object representation of a post"""
+        pass
