@@ -1,5 +1,6 @@
 from flask import Flask, request
 from relations import db, Course
+import json
 
 # Initialize Flask
 app = Flask(__name__)
@@ -22,8 +23,21 @@ def home():
 
 @app.route('/courses/', methods=["GET"])
 def get_courses():
-    courses = Course.query.all()
+    courses = [crs.serialize() for crs in Course.query.all()]
+    return json.dumps(courses)
 
+@app.route('/courses/', methods=["POST"])
+def create_course_comment():
+    body = json.loads(request.data)
+    comments, author = body.get("author"), body.get("comments")
+    professor, time = body.get("time"), body.get("professor")
+    year, semester = body.get("semester"), body.get("year")
+    
+    crs = Course(author=author, comments=comments, time=time, professor=professor, semester=semester, year=year)
+    db.session.add(crs)
+    db.session.commit()
+
+    return 'Created'
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4000)
