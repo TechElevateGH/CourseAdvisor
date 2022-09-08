@@ -79,7 +79,7 @@ class Post(db.Model):
         self.author = kwargs.get("author")
 
     def serialize(self):
-        return {
+        return ({
             "id": self.id,
             "course": self.course,
             "author": self.author,
@@ -89,4 +89,4 @@ class Post(db.Model):
             "comment": self.comment,
             "rating": self.rating,
             "time": self.time
-        }
+        })
