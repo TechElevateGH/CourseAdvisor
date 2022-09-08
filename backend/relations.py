@@ -35,7 +35,6 @@ class Department(db.Model):
             "courses": [course.serialize() for course in self.courses]
         })
 
-
 class Course(db.Model):
     __tablename__ = "courses"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
