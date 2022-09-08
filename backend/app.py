@@ -27,22 +27,29 @@ def home():
 @app.route('/courses/', methods=["GET"])
 def get_courses():
     courses = [crs.serialize() for crs in Course.query.all()]
-    return json.dumps(courses)
+    return success_response(courses, 200)
+
 
 @app.route('/courses/', methods=["POST"])
 def create_course_comment():
     body = json.loads(request.data)
-    comments, author = body.get("author"), body.get("comments")
-    professor, time = body.get("time"), body.get("professor")
-    year, semester = body.get("semester"), body.get("year")
-    
-    crs = Course(author=author, comments=comments, time=time, professor=professor, semester=semester, year=year)
+    try:
+        comments, author = body.get("author"), body.get("comments")
+        professor, time = body.get("time"), body.get("professor")
+        year, semester = body.get("semester"), body.get("year")
+    except Exception as e:
+        return error_response(e, 400)
+
+    crs = Course(author=author, comments=comments, time=time,
+                 professor=professor, semester=semester, year=year)
     db.session.add(crs)
     db.session.commit()
 
     return 'Created'
 
 ####################### POST ROUTES #######################
+
+
 @app.route('/courses/<int: course_id>/posts/', methods=["GET"])
 def get_course_posts(course_id: int):
     course = Course.query.filter_by(id=course_id).first()
@@ -61,10 +68,10 @@ def create_course_posts(course_id: int):
     if not course:
         return error_response("Course Not Found!", 404)
 
-    body = request.data
+    body = json.loads(request.data)
     try:
-        author, message, rating, instructor, date = body["author"], body[
-            "message"], body["rating"], body["instructor"], datetime.now()
+        author, message, rating, instructor, date = body.get("author"), body.get(
+            "message"), body.get("rating"), body.get("instructor"), datetime.now()
     except Exception as e:
         return error_response("Author, Message, Rating and Instructor Fields Required!")
 
