@@ -1,7 +1,8 @@
 from flask import Flask, request
-from relations import db, Course
+from backend.relations import Department
+from relations import db, Course, University
 import json
-from datetime import date, datetime
+from datetime import datetime
 from utils import error_response, success_response
 from relations import db, Course, Post
 
@@ -30,19 +31,31 @@ def get_courses():
     return success_response(courses, 200)
 
 
-@app.route('/courses/', methods=["POST"])
-def create_course_comment():
+@app.route('<int: univ_id>/<int: dept_id>/courses/', methods=["POST"])
+def create_course(univ_id: int, dept_id: int):
+    """ Creates university course """
+
+    university = University.query.filter_by(id=univ_id)
+    if not university:
+        return error_response("Univeristy Not Found!", 404)
+    department = Department.query.filter_by(id=dept_id)
+    if not department:
+        return error_response("Department Not Found!", 404)
+
     body = json.loads(request.data)
     try:
-        comments, author = body.get("author"), body.get("comments")
         professor, time = body.get("time"), body.get("professor")
         year, semester = body.get("semester"), body.get("year")
     except Exception as e:
         return error_response(e, 400)
 
-    crs = Course(author=author, comments=comments, time=time,
-                 professor=professor, semester=semester, year=year)
-    db.session.add(crs)
+    course = Course(
+        time=time,
+        professor=professor,
+        department=department,
+        university=university
+    )
+    db.session.add(course)
     db.session.commit()
 
     return 'Created'
