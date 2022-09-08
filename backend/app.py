@@ -52,9 +52,10 @@ def create_course(univ_id: int, dept_id: int):
     course = Course(
         time=time,
         professor=professor,
-        department=department,
-        university=university
+        department=dept_id,
+        university=univ_id
     )
+
     db.session.add(course)
     db.session.commit()
 
