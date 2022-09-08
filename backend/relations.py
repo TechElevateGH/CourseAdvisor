@@ -40,57 +40,55 @@ class Course(db.Model):
     __tablename__ = "courses"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
-    department = db.Column(db.Integer, db.ForeignKey("department.id"))
-    university = db.Column(db.Integer, db.ForeignKey("university.id"))
-    advices = db.relationship('Advice', backref='course')
+    university = db.Column(db.Integer, db.ForeignKey('university.id'),
+        nullable=False)
+    posts = db.relationship('Post', backref='course')
+    num_posts = db.Column(db.Integer)
+    overall_rating = db.Column(db.Integer)
 
-    def __init__(self, **kwargs):
+    def __init__(self,**kwargs):
         self.name = kwargs.get("name")
-        self.advices = kwargs.get("advices")
-
-    def serialise(self):
-        return {
-            "id": self.id,
-            "name": self.name
-        }
-
-    def serialize_for_course(self):
-        return {
-            "id": self.id,
-            "name": self.name,
-            "author": self.author,
-            "advices": [advice.serialize_advice() for advice in self.advices]
-        }
-
-
-class Advice(db.Model):
-    __tablename__ = "advice"
-    id = db.Column(db.Integer, primary_key=True)
-    advice = db.Column(db.String, nullable=False)
-    course_id = db.Column(db.Integer, db.ForeignKey('course.id'),
-                          nullable=False)
-    author = db.Column(db.String)
-    comments = db.Column(db.String)
-    time = db.Column(db.String)
-    professor = db.Column(db.String)
-    semester = db.Column(db.String)
-    year = db.Column(db.String)
-
+        self.university = kwargs.get("university")
+    
     def serialize(self):
         return ({
             "id": self.id,
-            "author": self.author,
-            "comments": self.comments,
-            "time": self.time,
-            "professor": self.professor,
-            "semester": self.semester,
-            "year": self.year
+            "name":self.name,
+            "university":self.university,
+            "posts": [post.serialize() for post in self.posts],
+            "num_posts":self.num_posts,
+            "overall_rating":self.overall_rating
         })
-
+ 
 
 class Post(db.Model):
-    pass
+    __tablename__ = "posts"
+    id = db.Column(db.Integer, primary_key=True, autoincrement = True)
+    course = db.Column(db.Integer, db.ForeignKey('course.id'),
+        nullable=False)
+    author = db.Column(db.String, nullable=False)
+    professor = db.Column(db.String)
+    semester = db.Column(db.String)
+    year = db.Column(db.String)
+    comment = db.Column(db.String,nullable =False)
+    rating = db.Column(db.Integer)
+    time = db.Column(db.DateTime)
 
-    def serialize_for_course(self):
-        """ An object representation of a post"""
-        pass
+    
+    def __init__(self, **kwargs):
+        self.comment = kwargs.get("comment")
+        self.author = kwargs.get("author")
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "course":self.course,
+            "author":self.author,
+            "professor":self.professor,
+            "semester":self.semester,
+            "year":self.year,
+            "comment":self.comment,
+            "rating":self.rating,
+            "time": self.time
+        }
+
