@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@500&display=swap');
+
+:root{
+
+  --advisor-theme-background-color: #d3d3d3;
+  --advisor-theme-main-color: #000;
+  --advisor-theme-sub-text-color: #222;
+  --advisor-theme-nav-background-color: #d3d3d3;
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+html{
+  font-size: 62.5%;
+  height: 100%;
+}
+
+body{
+  background: var(--advisor-theme-background-color);
+  height: 100%;
+}
+
+#root{
+  height: 100%;
+}
