@@ -35,6 +35,7 @@ const NavBar = () => {
             <div className='container'>
                 <Link to={'/'} className='logo'>
                 <img src={Logo} title='Home' alt='Home'/>
+                <li>Home</li>
                 </Link>
             </div>
                 <ul className={`menu ${toggleIcon ? 'active' : ''}`}>

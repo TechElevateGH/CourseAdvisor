@@ -6,11 +6,13 @@ const Home = () => {
 
   return (
     <section id="home" className="home">
+
       <div className="page-image">
         <img src={LOGO} alt="" />
       </div>
+
       <div className="text-wrapper">
-        <h1><span>COURSE</span></h1>
+        <h1>COURSE</h1>
         <div className="text">
           <h1>ADVISOR</h1>
         </div>
@@ -32,9 +34,9 @@ const Home = () => {
       <div className="navigate">
         <ul className="menu">
           <li><a href="" >Course <br /> 800+ </a></li>
-          <li><a href="" >Course <br /> 800+ </a></li>
-          <li><a href="" >Course <br /> 800+ </a></li>
-          <li><a href="" >Course <br /> 800+ </a></li>
+          <li><a href="" >Course <br /> 100+ </a></li>
+          <li><a href="" >Course <br /> 1M+ </a></li>
+          <li><a href="" >Course <br /> 100K+ </a></li>
         </ul>
         <button className="hero-btn">Explore</button>
       </div>

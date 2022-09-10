@@ -3,7 +3,8 @@
 :root{
 
   --advisor-theme-background-color: #d3d3d3;
-  --advisor-theme-main-color: #000;
+  --advisor-theme-main-color: rgb(29, 29, 29);
+  --advisor-theme-sub-main-color: rgb(34, 34, 95);
   --advisor-theme-sub-text-color: #222;
   --advisor-theme-nav-background-color: #d3d3d3;
 }
@@ -21,7 +22,7 @@ html{
 }
 
 body{
-  background: var(--advisor-theme-background-color);
+  /* background: var(--advisor-theme-background-color); */
   height: 100%;
 }
 
