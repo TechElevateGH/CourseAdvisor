@@ -1,8 +1,15 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./styles.css";
 import LOGO from '../../images/LOGO.svg'
 
 const Home = () => {
+
+  const navigate = useNavigate();
+
+  const handleNavigateToRatings = () => {
+    navigate("./ratings");
+  };
 
   return (
     <section id="home" className="home">
@@ -38,7 +45,7 @@ const Home = () => {
           <li><a href="" >Course <br /> 1M+ </a></li>
           <li><a href="" >Course <br /> 100K+ </a></li>
         </ul>
-        <button className="hero-btn">Explore</button>
+        <button className="hero-btn" onClick={handleNavigateToRatings}>Explore</button>
       </div>
     </section>
   );

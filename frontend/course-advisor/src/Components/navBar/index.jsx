@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { FaBars } from 'react-icons/fa'
 import { HiX } from 'react-icons/hi'
 import { Link } from 'react-router-dom'
-import Logo from '../../images/Artboard 1.png'
 import './styles.css'
 
 
@@ -34,7 +33,6 @@ const NavBar = () => {
         <nav className='navbar'>
             <div className='container'>
                 <Link to={'/'} className='logo'>
-                <img src={Logo} title='Home' alt='Home'/>
                 <li>Home</li>
                 </Link>
             </div>

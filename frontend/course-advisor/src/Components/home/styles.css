@@ -4,7 +4,7 @@
     height: 100%;
     flex-direction: column;
     justify-content: start;
-    margin: 0 10%;
+    margin: 0 8%;
 }
 
 .home .page-image{
@@ -81,7 +81,7 @@
 .home .navigate .menu{
     width: 80%;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     list-style: none;
     background: var(--advisor-theme-main-color);
@@ -92,7 +92,7 @@
 .home .navigate .menu li{
     width: 60%;
     line-height: 20px;
-    margin-left: 8rem;
+    margin-left: 9rem;
     font-size: 1.6rem;
 }
 
@@ -114,6 +114,9 @@
 }
 
 @media only screen and (max-width : 550px) {
+    .home{
+        margin: 0 5%;
+    }
     .home .text-wrapper h1{
         font-size: 3rem;
         line-height: 3rem;
@@ -137,11 +140,14 @@
         margin-left: 0rem;
     }
     .hero-btn{
-        padding: 10px 12px;
+        padding: 10px 16px;
     }
 }
 
 @media only screen and (min-width : 551px) and (max-width : 768px) {
+    .home{
+        margin: 0 5%;
+    }
     .home .text-wrapper h1{
         font-size: 4rem;
         line-height: 4rem;
@@ -158,17 +164,19 @@
         transition: .3s ease all;
     }
     .home .navigate .menu{
+        width: 100%;
         justify-content: space-around;
+        transition: .3s ease all;
     }
     .home .navigate .menu li{
         width: 0%;
         line-height: 20px;
         font-size: 1.2rem;
-        margin-left: 0rem;
+        margin-left: -28px;
     }
     .hero-btn{
         font-size: 1.6rem;
-        padding: 10px 14px;
+        padding: 10px 20px;
         transition: .3s ease all;
     }
    
@@ -199,11 +207,11 @@
         width: 0%;
         line-height: 20px;
         font-size: 1.2rem;
-        margin-left: 0rem;
+        margin-left: -30px;
     }
     .hero-btn{
         font-size: 1.6rem;
-        padding: 10px 14px;
+        padding: 10px 40px;
         transition: .3s ease all;
     }
 }
