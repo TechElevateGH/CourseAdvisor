@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 
 class University(db.Model):
-    __tablename__ = "universities"
+    __tablename__ = "university"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     logo = db.Column(db.String, nullable=False)
@@ -17,7 +17,7 @@ class University(db.Model):
 
 
 class Department(db.Model):
-    __tablename__ = "departments"
+    __tablename__ = "department"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     university = db.Column(db.Integer, db.ForeignKey("university.id"))
@@ -37,7 +37,7 @@ class Department(db.Model):
 
 
 class Course(db.Model):
-    __tablename__ = "courses"
+    __tablename__ = "course"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String, nullable=False)
     university = db.Column(db.Integer, db.ForeignKey('university.id'),
@@ -62,7 +62,7 @@ class Course(db.Model):
 
 
 class Post(db.Model):
-    __tablename__ = "posts"
+    __tablename__ = "post"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     course = db.Column(db.Integer, db.ForeignKey('course.id'),
                        nullable=False)
@@ -89,4 +89,11 @@ class Post(db.Model):
             "comment": self.comment,
             "rating": self.rating,
             "time": self.time
+        })
+
+    def serialize_for_course(self):
+        return ({
+            "author": self.author,
+            "comment": self.comment,
+            "rating": self.rating,
         })
