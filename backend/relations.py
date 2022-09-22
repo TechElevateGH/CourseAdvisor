@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.sql import func
 
 db = SQLAlchemy()
 
@@ -42,8 +43,8 @@ class Course(db.Model):
     name = db.Column(db.String, nullable=False)
     university = db.Column(db.Integer, db.ForeignKey('university.id'),
                            nullable=False)
-    posts = db.relationship('Post', backref='course')
-    num_posts = db.Column(db.Integer)
+    reviews = db.relationship('Review', backref='course')
+    num_reviews = db.Column(db.Integer)
     overall_rating = db.Column(db.Integer)
 
     def __init__(self, **kwargs):
@@ -55,14 +56,15 @@ class Course(db.Model):
             "id": self.id,
             "name": self.name,
             "university": self.university,
-            "posts": [post.serialize() for post in self.posts],
+            "reviews": [review.serialize() for review in self.reviews],
             "num_posts": self.num_posts,
             "overall_rating": self.overall_rating
         })
 
 
-class Post(db.Model):
-    __tablename__ = "post"
+
+class Review(db.Model):
+    __tablename__ = "review"
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     course = db.Column(db.Integer, db.ForeignKey('course.id'),
                        nullable=False)
@@ -70,9 +72,9 @@ class Post(db.Model):
     professor = db.Column(db.String)
     semester = db.Column(db.String)
     year = db.Column(db.String)
-    comment = db.Column(db.String, nullable=False)
+    comments = db.relationship('Comment', backref='review')
     rating = db.Column(db.Integer)
-    time = db.Column(db.DateTime)
+    time_stamp = db.Column(db.DateTime(timezone=True),nullable=False, server_default=func.utcnow())
 
     def __init__(self, **kwargs):
         self.comment = kwargs.get("comment")
@@ -86,10 +88,11 @@ class Post(db.Model):
             "professor": self.professor,
             "semester": self.semester,
             "year": self.year,
-            "comment": self.comment,
+            "comments": [comment.serialize() for comment in self.comments],
             "rating": self.rating,
             "time": self.time
         })
+
 
     def serialize_for_course(self):
         return ({
@@ -97,3 +100,26 @@ class Post(db.Model):
             "comment": self.comment,
             "rating": self.rating,
         })
+
+class Comment(db.Model):
+    __tablename__ = "comments"
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    review = db.Column(db.Integer, db.ForeignKey("review.id"))
+    author = db.Column(db.String,nullable = False)
+    comment = db.Column(db.Text, nullable=False)
+    num_likes = db.Column(db.Integer)
+
+    def __init__(self,**kwargs):
+        self.author = kwargs.get("author")
+        self.comment = kwargs.get("comment")   
+
+    def serialize(self):
+        return {
+            "id":self.id,
+            "review":self.review,
+            "author":self.author,
+            "comment":self.comment,
+            "num_likes":self.num_likes
+        }     
+    
+
