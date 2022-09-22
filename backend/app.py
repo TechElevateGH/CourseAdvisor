@@ -1,5 +1,5 @@
 from flask import Flask, request
-from backend.relations import Department
+from relations import Department
 from relations import db, Course, University
 import json
 from datetime import datetime
@@ -31,7 +31,7 @@ def get_courses():
     return success_response(courses, 200)
 
 
-@app.route('<int: univ_id>/<int: dept_id>/courses/', methods=["POST"])
+@app.route("/universities/<int:univ_id>/departments/<int:dept_id>/courses/", methods=["POST"])
 def create_course(univ_id: int, dept_id: int):
     """ Creates university course """
 
@@ -64,7 +64,7 @@ def create_course(univ_id: int, dept_id: int):
 ####################### POST ROUTES #######################
 
 
-@app.route('/courses/<int: course_id>/posts/', methods=["GET"])
+@app.route('/courses/<int:course_id>/posts/', methods=["GET"])
 def get_course_posts(course_id: int):
     course = Course.query.filter_by(id=course_id).first()
     if not course:
@@ -74,7 +74,7 @@ def get_course_posts(course_id: int):
     return success_response(posts, 200)
 
 
-@app.route('/courses/<int: course_id>/posts/', methods=["POST"])
+@app.route('/courses/<int:course_id>/posts/', methods=["POST"])
 def create_course_posts(course_id: int):
     """ Create a post for a course """
 
@@ -103,7 +103,7 @@ def create_course_posts(course_id: int):
     return success_response(post.serialize_for_course(), 200)
 
 
-@app.route('/courses/<int: course_id>/posts/<int: post_id>/', methods=["GET"])
+@app.route('/courses/<int:course_id>/posts/<int:post_id>/', methods=["GET"])
 def edit_course_posts(course_id: int, post_id: int):
     course = Course.query.filter_by(id=course_id).first()
     if not course:
@@ -117,7 +117,7 @@ def edit_course_posts(course_id: int, post_id: int):
     try:
         post.author, post.message, post.rating, post.instructor, post.date = body[
             "author"], body["message"], body["rating"], body["instructor"], datetime.now()
-    except Exception as e:
+    except Exception as _:
         return error_response("Author, Message, Rating and Instructor Fields Required!")
 
     db.session.commit()
